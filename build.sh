@@ -30,4 +30,4 @@ $PBC_TO_EXE safire.pbc --install && strip installable_safire
 
 cc -o safire.o -I"$INCLUDE_DIR" -D_REENTRANT -D_GNU_SOURCE -DDEBIAN  -pipe -fstack-protector -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DHASATTRIBUTE_CONST  -DHASATTRIBUTE_DEPRECATED  -DHASATTRIBUTE_MALLOC  -DHASATTRIBUTE_NONNULL  -DHASATTRIBUTE_NORETURN  -DHASATTRIBUTE_PURE  -DHASATTRIBUTE_UNUSED  -DHASATTRIBUTE_WARN_UNUSED_RESULT  -DHASATTRIBUTE_HOT  -DHASATTRIBUTE_COLD  -DDISABLE_GC_DEBUG=1 -DNDEBUG -DHAS_GETTEXT -O2 -g -c safire.c
 
-cc -s -o installable_safire "safire.o" "$PREFIX/lib/parrot/4.7.0-devel/parrot_config.o" -Wl,-rpath="$PREFIX/lib" -L/home/michael/local/lib -L"$PREFIX/lib" -lparrot -Wl,-E  -fstack-protector -L/usr/local/lib -Wl,-E -ldl -lm -lpthread -lcrypt -lrt -lreadline  -L/usr/lib  -licuuc -licudata 
+cc -s -o installable_safire "safire.o" "$PREFIX/lib/parrot/4.7.0-devel/parrot_config.o" -Wl,-rpath="$PREFIX/lib" -L"$PREFIX/lib" -lparrot -Wl,-E  -fstack-protector -L/usr/local/lib -Wl,-E -ldl -lm -lpthread -lcrypt -lrt -lreadline  -L/usr/lib  -licuuc -licudata 
