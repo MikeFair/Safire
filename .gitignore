@@ -1,0 +1,6 @@
+*.pbc
+*.o
+installable_safire
+safire.pir
+safire.c
+src/gen_*
