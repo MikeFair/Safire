@@ -10,9 +10,9 @@ say("exit TOP: ", $/);
 
 method statement_list($/) {
 say("enter statement_list: ", $/);
-    my $past := PAST::Stmts.new( :node($/) );
+    my $qast := PAST::Stmts.new( :node($/) );
     for $<statement> { $qast.push( $_.ast ); }
-    make $past;
+    make $qast;
 say("exit statement_list: ", $/);
 }
 
@@ -25,7 +25,7 @@ say("exit statement: ", $/);
 method statement_control:sym<say>($/) {
 say("enter statement_control: ", $/);
     my $qast := QAST::Op.new( :name<say>, :op<callmethod>, :node($/) );
-    for $<EXPR> { $past.push( $_.ast ); }
+    for $<EXPR> { $qast.push( $_.ast ); }
     make $qast;
 say("exit statement_control: ", $/);
 }
