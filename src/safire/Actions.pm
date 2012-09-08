@@ -4,7 +4,7 @@ class safire::Actions is HLL::Actions {
 
 method TOP($/) {
 say("enter TOP: ", $/);
-    make QAST::Block.new( $<statement_list>.ast, :node($/) );
+    make QAST::Block.new( $<statement_control>.ast, :node($/) );
 say("exit TOP: ", $/);
 }
 
@@ -24,14 +24,14 @@ say("exit statement: ", $/);
 
 method statement_control:sym<say>($/) {
 say("enter statement_control: ", $/);
-    my $qast := QAST::Op.new( :name<say>, :op<callmethod>, :node($/) );
+    my $qast := QAST::Op.new( :name<say>, :op<say>, :node($/) );
     for $<EXPR> { $qast.push( $_.ast ); }
     make $qast;
 say("exit statement_control: ", $/);
 }
 
 method statement_control:sym<print>($/) {
-    my $qast := QAST::Op.new( :name<print>, :op<callmethod>, :node($/) );
+    my $qast := QAST::Op.new( :name<print>, :op<print>, :node($/) );
     for $<EXPR> { $qast.push( $_.ast ); }
     make $qast;
 }
