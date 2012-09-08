@@ -39,7 +39,7 @@ method statement_control:sym<print>($/) {
 method term:sym<integer>($/) { make $<integer>.ast; }
 method term:sym<quote>($/) {
 say("enter quote: ", $/);
- make $<quote_EXPR>.ast; 
+ make $<quote>.ast; 
 say("exit quote: ", $/);
 }
 
