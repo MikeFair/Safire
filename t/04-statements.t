@@ -28,7 +28,7 @@ if true then
   say "9"
 else
   say "9"
-  say "10"
+say "10"
 
 if true
 then say "1"
@@ -65,4 +65,4 @@ then
   say "9"
 else
   say "9"
-  say "10"
+say "10"
