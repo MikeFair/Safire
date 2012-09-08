@@ -1,0 +1,59 @@
+on start
+if 1 then 
+end if
+
+if 1
+then
+end if
+
+if
+1
+then
+end if
+
+if 1 then 2
+end if
+
+if 1 then
+2
+end if
+
+if 1
+then 2
+end if
+
+if
+1
+then 2
+end if
+
+if
+1
+then
+2
+end if
+
+if
+1 then
+2
+end if
+
+if
+1 then 2
+end if
+
+if \
+1 then 2
+end if
+
+if \
+1 then \
+2
+end if
+
+if \
+1 \
+then \
+2
+end if
+end start
