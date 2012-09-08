@@ -25,7 +25,7 @@ token ws {
 
 ## Statements
 
-rule statement_list { [ <statement> | <?> ] <statement_list> }
+rule statement_list { <statement>* }
 
 rule statement {
     | <statement_control>

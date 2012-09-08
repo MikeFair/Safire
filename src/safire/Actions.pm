@@ -10,7 +10,7 @@ say("exit TOP: ", $/);
 
 method statement_list($/) {
 say("enter statement_list: ", $/);
-    my $qast := PAST::Stmts.new( :node($/) );
+    my $qast := QAST::Stmts.new( :node($/) );
     for $<statement> { $qast.push( $_.ast ); }
     make $qast;
 say("exit statement_list: ", $/);
@@ -18,22 +18,25 @@ say("exit statement_list: ", $/);
 
 method statement($/) {
 say("enter statement: ", $/);
-    make $<statement_control> ?? $<statement_control>.ast !! $<EXPR>.ast;
+    #make $<statement_control> ?? $<statement_control>.ast !! $<EXPR>.ast;
+    make $<statement_control>;
 say("exit statement: ", $/);
 }
 
 method statement_control:sym<say>($/) {
-say("enter statement_control: ", $/);
+say("enter statement_control say: ", $/);
     my $qast := QAST::Op.new( :name<say>, :op<say>, :node($/) );
     for $<EXPR> { $qast.push( $_.ast ); }
     make $qast;
-say("exit statement_control: ", $/);
+say("exit statement_control say: ", $/);
 }
 
 method statement_control:sym<print>($/) {
+say("enter statement_control print: ", $/);
     my $qast := QAST::Op.new( :name<print>, :op<print>, :node($/) );
     for $<EXPR> { $qast.push( $_.ast ); }
     make $qast;
+say("exit statement_control print: ", $/);
 }
 
 method term:sym<integer>($/) { make $<integer>.ast; }
