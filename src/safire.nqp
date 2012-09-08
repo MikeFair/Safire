@@ -1,21 +1,21 @@
-use src::safire::Grammar;
-use src::safire::Actions;
-use src::safire::Compiler;
+use src::Safire::Grammar;
+use src::Safire::Actions;
+use src::Safire::Compiler;
 
 use NQPHLL;
 
 sub MAIN(@ARGS) {
     # Initialize dynops.
-    #pir::safire_dynop_setup__v();
+    #pir::Safire_dynop_setup__v();
 
     # Bump up Parrot's recursion limit
     pir::getinterp__P().recursion_limit(100000);
 
     # Create and configure compiler object.
-    my $comp := safire::Compiler.new();
-    $comp.language('safire');
-    $comp.parsegrammar(safire::Grammar);
-    $comp.parseactions(safire::Actions);
+    my $comp := Safire::Compiler.new();
+    $comp.language('Safire');
+    $comp.parsegrammar(Safire::Grammar);
+    $comp.parseactions(Safire::Actions);
     #$comp.addstage('syntaxcheck', :before<past>);
     #$comp.addstage('optimize', :before<post>);
     hll-config($comp.config);

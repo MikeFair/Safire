@@ -9,14 +9,14 @@ PARROT_VERSION=4.7.0-devel
 
 ./clean.sh
 
-$NQP --target=pir --output=src/gen_runtime.pir  src/safire/Runtime.pm
-$NQP --target=pir --output=src/gen_actions.pir  src/safire/Actions.pm
-$NQP --target=pir --output=src/gen_compiler.pir  src/safire/Compiler.pm
-$NQP --target=pir --output=src/gen_grammar.pir  src/safire/Grammar.pm
-$PARROT -o src/safire/Runtime.pbc src/gen_runtime.pir
-$PARROT -o src/safire/Actions.pbc src/gen_actions.pir
-$PARROT -o src/safire/Compiler.pbc src/gen_compiler.pir
-$PARROT -o src/safire/Grammar.pbc src/gen_grammar.pir
+$NQP --target=pir --output=src/gen_runtime.pir  src/Safire/Runtime.pm
+$NQP --target=pir --output=src/gen_actions.pir  src/Safire/Actions.pm
+$NQP --target=pir --output=src/gen_compiler.pir  src/Safire/Compiler.pm
+$NQP --target=pir --output=src/gen_grammar.pir  src/Safire/Grammar.pm
+$PARROT -o src/Safire/Runtime.pbc src/gen_runtime.pir
+$PARROT -o src/Safire/Actions.pbc src/gen_actions.pir
+$PARROT -o src/Safire/Compiler.pbc src/gen_compiler.pir
+$PARROT -o src/Safire/Grammar.pbc src/gen_grammar.pir
 $NQP --target=pir --output=src/safire.pir  src/safire.nqp
 $PARROT -o safire.pbc src/safire.pir
 $PBC_TO_EXE safire.pbc --install && strip installable_safire
