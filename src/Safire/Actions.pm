@@ -18,8 +18,8 @@ say("exit statement_list: ", $/);
 
 method statement($/) {
 say("enter statement: ", $/);
-    #make $<statement_control> ?? $<statement_control>.ast !! $<EXPR>.ast;
-    make $<statement_control>;
+    make $<statement_control> ?? $<statement_control>.ast !! $<EXPR>.ast;
+    #make $<statement_control>;
 say("exit statement: ", $/);
 }
 
@@ -39,19 +39,19 @@ say("enter statement_control print: ", $/);
 say("exit statement_control print: ", $/);
 }
 
-method term:sym<integer>($/) { make $<integer>.ast; }
+method term:sym<number>($/) { make $<number>.ast; }
+method number($/) { make +$/; }
+
 method term:sym<quote>($/) {
 say("enter quote: ", $/);
  make $<quote>.ast; 
 say("exit quote: ", $/);
 }
 
-method quote:sym<'>($/) { make $<quote_EXPR>.ast; }
-method quote:sym<">($/) {
-say("enter quote:sym<\">: ", $/);
-make $<quote_EXPR>.ast;
-say("exit quote:sym<\">: ", $/);
-}
+
+#method quote:sym<'>($/) { make $<quote_EXPR>.ast; }
+method quote:sym<'>($/) { say("enter quote:sym<\'>: ", $/); make $<quote_EXPR>.ast; say("exit quote:sym<\">: ", $/); }
+method quote:sym<">($/) { say("enter quote:sym<\">: ", $/); make $<quote_EXPR>.ast; say("exit quote:sym<\">: ", $/); }
 
 method circumfix:sym<( )>($/) { make $<EXPR>.ast; }
 

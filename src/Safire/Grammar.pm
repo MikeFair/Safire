@@ -38,12 +38,19 @@ rule statement_control:sym<print> { <sym> [ <EXPR> ]* %','  }
 
 ## Terms
 
-token term:sym<integer> { <integer> }
+token term:sym<number> { <number> }
 token term:sym<quote> { <quote> }
 
 proto token quote { <...> }
 token quote:sym<'> { <?[']> <quote_EXPR: ':q'> }
 token quote:sym<"> { <?["]> <quote_EXPR: ':qq'> }
+
+token number {
+   '-'?
+   [ <[1..9]> <[0..9]>+ | <[0..9]> ]
+   [ '.' <[0..9]>+ ]?
+   [ <[Ee]> <[+\-]>? <[0..9]>+ ]?
+}
 
 ## Operators
 
@@ -54,9 +61,9 @@ INIT {
 
 token circumfix:sym<( )> { '(' <.ws> <EXPR> ')' }
 
-token infix:sym<*>  { <sym> <O('%multiplicative, :pirop<mul>')> }
-token infix:sym</>  { <sym> <O('%multiplicative, :pirop<div>')> }
+token infix:sym<*>  { <sym> <O('%multiplicative, :op<mul_n>')> }
+token infix:sym</>  { <sym> <O('%multiplicative, :op<div_n>')> }
 
-token infix:sym<+>  { <sym> <O('%additive, :pirop<add>')> }
-token infix:sym<->  { <sym> <O('%additive, :pirop<sub>')> }
+token infix:sym<+>  { <sym> <O('%additive, :op<add_n>')> }
+token infix:sym<->  { <sym> <O('%additive, :op<sub_n>')> }
 }

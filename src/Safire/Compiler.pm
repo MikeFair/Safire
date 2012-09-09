@@ -4,7 +4,8 @@ class Safire::Compiler is HLL::Compiler {
 
     method autoprint($statement_list) {
         _dumper($statement_list, 'SAFIRE')
-            unless (pir::getinterp__P()).stdhandle(1).tell > $*AUTOPRINTPOS;
+            #unless (pir::getinterp__P()).stdhandle(1).tell > $*AUTOPRINTPOS;
+            unless (pir::getinterp__P()).stdout_handle().tell() > $*AUTOPRINTPOS;
     }
 
 }
