@@ -40,7 +40,13 @@ say("exit statement_control print: ", $/);
 }
 
 method term:sym<number>($/) { make $<number>.ast; }
-method number($/) { make +$/; }
+method number($/) {
+   my $value := $<dec_number> ?? $<dec_number>.ast !! $<integer>.ast;
+   if ~$<sign> eq '-' { $value := -$value; }
+   make $<dec_number> ??
+      QAST::NVal.new( :value($value) ) !!
+      QAST::IVal.new( :value($value) );
+}
 
 method term:sym<quote>($/) {
 say("enter quote: ", $/);

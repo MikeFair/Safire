@@ -32,7 +32,7 @@ rule statement {
     | <EXPR>
 }
 
-proto token statement_control { <...> }
+proto token statement_control { <*> }
 rule statement_control:sym<say>   { <sym> [ <EXPR> ]* %','  }
 rule statement_control:sym<print> { <sym> [ <EXPR> ]* %','  }
 
@@ -41,15 +41,13 @@ rule statement_control:sym<print> { <sym> [ <EXPR> ]* %','  }
 token term:sym<number> { <number> }
 token term:sym<quote> { <quote> }
 
-proto token quote { <...> }
+proto token quote { <*> }
 token quote:sym<'> { <?[']> <quote_EXPR: ':q'> }
 token quote:sym<"> { <?["]> <quote_EXPR: ':qq'> }
 
 token number {
-   '-'?
-   [ <[1..9]> <[0..9]>+ | <[0..9]> ]
-   [ '.' <[0..9]>+ ]?
-   [ <[Ee]> <[+\-]>? <[0..9]>+ ]?
+   $<sign>=[<[+\-]>?]
+   [ <dec_number> | <integer> ]
 }
 
 ## Operators
