@@ -11,7 +11,7 @@ grammar Safire::Grammar is HLL::Grammar {
 my $cursor_class := NQPCursor;
 
 token TOP {
-    <statement_control>
+    <statement_list>
     [ $ || <.panic: "Syntax error"> ]
 }
 
@@ -25,7 +25,7 @@ token ws {
 
 ## Statements
 
-rule statement_list { <statement>* }
+rule statement_list { [ <statement> | <?> ]* %';' }
 
 rule statement {
     | <statement_control>

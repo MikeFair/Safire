@@ -4,7 +4,7 @@ class Safire::Actions is HLL::Actions {
 
 method TOP($/) {
 say("enter TOP: ", $/);
-    make QAST::Block.new( $<statement_control>.ast, :node($/) );
+    make QAST::Block.new( $<statement_list>.ast, :node($/) );
 say("exit TOP: ", $/);
 }
 
@@ -49,13 +49,14 @@ method number($/) {
 }
 
 method term:sym<quote>($/) {
-say("enter quote: ", $/);
+say("enter term:sym<quote>: ", $/);
  make $<quote>.ast; 
-say("exit quote: ", $/);
+say("exit term:sym<quote>: ", $/);
 }
 
 
 #method quote:sym<'>($/) { make $<quote_EXPR>.ast; }
+#method quote:sym<">($/) { make $<quote_EXPR>.ast; }
 method quote:sym<'>($/) { say("enter quote:sym<\'>: ", $/); make $<quote_EXPR>.ast; say("exit quote:sym<\">: ", $/); }
 method quote:sym<">($/) { say("enter quote:sym<\">: ", $/); make $<quote_EXPR>.ast; say("exit quote:sym<\">: ", $/); }
 
