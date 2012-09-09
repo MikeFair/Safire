@@ -4,3 +4,4 @@ installable_safire
 safire.pir
 safire.c
 src/gen_*
+*.swp
