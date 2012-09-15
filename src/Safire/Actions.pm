@@ -70,14 +70,14 @@ say("actione if_expr: ", $/);
    say("THEN: ", $<then>, "; THENAST: ", $<then>.ast);
    my $qast := QAST::Op.new( $<cond>.ast, $<then>.ast, :op('if'), :node($/) );
 
-   if ($<else>) {
-      make $<else>.ast;
-      #my $else := $<else><statement_list> ?? $<else><statement_list>.ast !! $<else><statement>.ast;
-      $qast.push( $<else>.ast );
+   if ($<elsePart>) {
+      $qast.push( $<elsePart>.ast );
    }
    make $qast;
 say("actionx if_expr: ");
 }
+
+method elsePart($/) { make ( $<statement> || $<statement_list> ).ast }
 
 method term:sym<number>($/) { make $<number>.ast; }
 method number($/) {

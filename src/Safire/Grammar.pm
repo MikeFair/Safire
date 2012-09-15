@@ -75,7 +75,7 @@ token stmntEnd { [ ';' | \v ]* }
 token return { [ ';' | \v ]+ {say("exit  return",$/);} }
 
 rule if_expr {
-   'if' $<cond>=<EXPR> 'then' :
+   'if' $<cond>=<EXPR> <.return>? 'then' :
    { say("enter if: ", $/); }
    [
    || <.return>: $<then>=<statement_list> [ 'else' <elsePart> || 'end' 'if' ]
@@ -86,8 +86,8 @@ rule if_expr {
 
 rule elsePart {
    [
-   || <.return> $<else>=<statement_list> 'end' 'if' 
-   || $<else>=<statement>
+   || <.return> <statement_list> 'end' 'if' 
+   || <statement>
    ]
 }
 
