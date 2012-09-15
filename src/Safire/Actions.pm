@@ -3,41 +3,89 @@ use NQPHLL;
 class Safire::Actions is HLL::Actions {
 
 method TOP($/) {
-say("enter TOP: ", $/);
+say("actione TOP: ", $/);
     make QAST::Block.new( $<statement_list>.ast, :node($/) );
-say("exit TOP: ", $/);
+say("actionx TOP: ");
 }
 
 method statement_list($/) {
-say("enter statement_list: ", $/);
+say("actione statement_list: ", $/);
     my $qast := QAST::Stmts.new( :node($/) );
     for $<statement> { $qast.push( $_.ast ); }
     make $qast;
-say("exit statement_list: ", $/);
+say("actionx statement_list: ");
 }
 
 method statement($/) {
-say("enter statement: ", $/);
+say("actione statement: ", $/ );
     make $<statement_control> ?? $<statement_control>.ast !! $<EXPR>.ast;
     #make $<statement_control>;
-say("exit statement: ", $/);
+say("actionx statement: ");
+}
+
+method statement_control:sym<import>($/) {
+say("actione statement_control import: ", $/ );
+    #make $<import>.ast;
+}
+
+method import($/) {
+say("actione import: ", $/ );
+    #make QAST::Block.new( $<statement_list>.ast, :node($/) );
+}
+
+method statement_control:sym<handler>($/) {
+say("actione statement_control handler: ", $/ );
+    make $<handler>.ast;
+say("actionx statement_control handler: " );
+}
+
+method handler($/) {
+say("actione handler: ", $/ );
+say("HANDLER STMNTLIST: { ", $<statement_list>, " }" );
+    make QAST::Block.new( $<statement_list>.ast, :name($<identifier>), :node($/) );
+say("actionx handler: " );
 }
 
 method statement_control:sym<say>($/) {
-say("enter statement_control say: ", $/);
+say("actione statement_control say: ", $/);
     my $qast := QAST::Op.new( :name<say>, :op<say>, :node($/) );
     for $<EXPR> { $qast.push( $_.ast ); }
     make $qast;
-say("exit statement_control say: ", $/);
+say("actionx statement_control say: ");
 }
 
 method statement_control:sym<print>($/) {
-say("enter statement_control print: ", $/);
+say("actione statement_control print: ", $/);
     my $qast := QAST::Op.new( :name<print>, :op<print>, :node($/) );
     for $<EXPR> { $qast.push( $_.ast ); }
     make $qast;
-say("exit statement_control print: ", $/);
+say("actionx statement_control print: ");
 }
+
+method statement_control:sym<if>($/) {
+say('actione statement_control if: ' );
+    make $<if_expr>.ast;
+say("actionx statement_control if: ");
+}
+
+method if_expr($/) {
+say("actione if_expr: ", $/);
+   make $<cond>.ast;
+   make $<then>.ast;
+   my $qast := QAST::Op.new( $<cond>.ast, $<then>.ast, :op('if'), :node($/) );
+
+   if ($<else>) {
+      make $<else>.ast;
+      #my $else := $<else><statement_list> ?? $<else><statement_list>.ast !! $<else><statement>.ast;
+      $qast.push( $<else>.ast );
+   }
+   make $qast;
+say("actionx if_expr: ");
+}
+
+method cond($/) { say("COND: ", $<EXPR>); make $<EXPR>.ast; }
+method then($/) { say("SINGLE/MULTI: ", $<statement> ?? 'SINGLE' !! 'MULTI' ); if ( $<statement> ) { make $<statement>.ast } else { make $<statement_list>.ast; } }
+method else($/) { say("SINGLE/MULTI: ", $<statement> ?? 'SINGLE' !! 'MULTI' ); if ( $<statement> ) { make $<statement>.ast } else { make $<statement_list>.ast; } }
 
 method term:sym<number>($/) { make $<number>.ast; }
 method number($/) {
@@ -49,18 +97,22 @@ method number($/) {
 }
 
 method term:sym<quote>($/) {
-say("enter term:sym<quote>: ", $/);
  make $<quote>.ast; 
-say("exit term:sym<quote>: ", $/);
 }
 
 
 #method quote:sym<'>($/) { make $<quote_EXPR>.ast; }
 #method quote:sym<">($/) { make $<quote_EXPR>.ast; }
-method quote:sym<'>($/) { say("enter quote:sym<\'>: ", $/); make $<quote_EXPR>.ast; say("exit quote:sym<\">: ", $/); }
-method quote:sym<">($/) { say("enter quote:sym<\">: ", $/); make $<quote_EXPR>.ast; say("exit quote:sym<\">: ", $/); }
+method quote:sym<'>($/) { make $<quote_EXPR>.ast; }
+method quote:sym<">($/) { make $<quote_EXPR>.ast; }
 
 method circumfix:sym<( )>($/) { make $<EXPR>.ast; }
 
+
+   #sub print(*@args) { for @args { nqp::print($_) }; } #nqp::print("\n") }
+   #sub print(*@args) { nqp::print(nqp::join('', @args)); 1; }
+
+   #sub say(*@args) { nqp::print(nqp::join('', @args)); 1; }
+   #sub say(*@args) { for @args { nqp::print($_) }; nqp::print("\n") }
 
 }

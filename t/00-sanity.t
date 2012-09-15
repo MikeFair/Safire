@@ -5,5 +5,5 @@ say 'ok 1'
 say 'ok ', 2
 say 'ok ', 2 + 1
 say 'ok', ' ', 4
-put 'yes' into 'no'
+#put 'yes' into 'no'
 end start

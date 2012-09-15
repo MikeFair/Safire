@@ -9,11 +9,11 @@ PARROT_VERSION=4.7.0-devel
 
 ./clean.sh
 
-$NQP --target=pir --output=src/gen_runtime.pir  src/Safire/Runtime.pm
+$NQP --target=pir --output=src/gen_world.pir  src/Safire/World.pm
 $NQP --target=pir --output=src/gen_actions.pir  src/Safire/Actions.pm
 $NQP --target=pir --output=src/gen_compiler.pir  src/Safire/Compiler.pm
 $NQP --target=pir --output=src/gen_grammar.pir  src/Safire/Grammar.pm
-$PARROT -o src/Safire/Runtime.pbc src/gen_runtime.pir
+$PARROT -o src/Safire/World.pbc src/gen_world.pir
 $PARROT -o src/Safire/Actions.pbc src/gen_actions.pir
 $PARROT -o src/Safire/Compiler.pbc src/gen_compiler.pir
 $PARROT -o src/Safire/Grammar.pbc src/gen_grammar.pir

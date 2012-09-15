@@ -1,59 +1,72 @@
 on start
+
 if 1 then 
 end if
 
-if 1
+if 1 \
 then
-end if
-
-if
-1
-then
-end if
-
-if 1 then 2
-end if
-
-if 1 then
-2
-end if
-
-if 1
-then 2
-end if
-
-if
-1
-then 2
-end if
-
-if
-1
-then
-2
-end if
-
-if
-1 then
-2
-end if
-
-if
-1 then 2
-end if
-
-if \
-1 then 2
-end if
-
-if \
-1 then \
-2
 end if
 
 if \
 1 \
-then \
-2
+then
 end if
+
+if \
+1 then
+end if
+
+if 1 then
+say 2
+end if
+
+if 1 \
+then
+say 2
+end if
+
+if \
+1 \
+then
+say 2
+end if
+
+if \
+1 then
+say 2
+end if
+
+if 1 then say 2
+
+if 1 then \
+say 2
+
+if 1 \
+then say 2
+
+if \
+1 then say 2
+
+if 1 \
+then say 2
+
+if 1 \
+then \
+say 2
+
+if \
+1 then say 2
+
+if \
+1 then \
+say 2
+
+if \
+1 \
+then say 2
+
+if \
+1 \
+then say 2
+
 end start
