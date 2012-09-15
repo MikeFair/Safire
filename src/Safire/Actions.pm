@@ -62,16 +62,12 @@ say("actione statement_control print: ", $/);
 say("actionx statement_control print: ");
 }
 
-method statement_control:sym<if>($/) {
-say('actione statement_control if: ' );
-    make $<if_expr>.ast;
-say("actionx statement_control if: ");
-}
+method statement_control:sym<if>($/) { say('actione statement_control if: ' ); make $<if_expr>.ast; say("actionx statement_control if: "); }
 
 method if_expr($/) {
 say("actione if_expr: ", $/);
-   make $<cond>.ast;
-   make $<then>.ast;
+   say("COND: ", $<cond>, "; CONDAST: ", $<cond>.ast);
+   say("THEN: ", $<then>, "; THENAST: ", $<then>.ast);
    my $qast := QAST::Op.new( $<cond>.ast, $<then>.ast, :op('if'), :node($/) );
 
    if ($<else>) {
@@ -82,10 +78,6 @@ say("actione if_expr: ", $/);
    make $qast;
 say("actionx if_expr: ");
 }
-
-method cond($/) { say("COND: ", $<EXPR>); make $<EXPR>.ast; }
-method then($/) { say("SINGLE/MULTI: ", $<statement> ?? 'SINGLE' !! 'MULTI' ); if ( $<statement> ) { make $<statement>.ast } else { make $<statement_list>.ast; } }
-method else($/) { say("SINGLE/MULTI: ", $<statement> ?? 'SINGLE' !! 'MULTI' ); if ( $<statement> ) { make $<statement>.ast } else { make $<statement_list>.ast; } }
 
 method term:sym<number>($/) { make $<number>.ast; }
 method number($/) {
