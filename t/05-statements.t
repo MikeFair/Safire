@@ -1,4 +1,5 @@
 start using import_eof
+
 if 1 then say 1
 
 if 2 then say 2 else say 5

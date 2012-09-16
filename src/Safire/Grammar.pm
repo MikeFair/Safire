@@ -72,16 +72,16 @@ token keyword { 'stop' | 'using' | 'if' | 'then' | 'else' | 'repeat' | 'end' | '
 #rule block_pair:sym<repeat> { <sym> <repeat_expr> end $<sym> }
 
 token stmntEnd { [ ';' || \v ]* }
-token return { [ ';' | \v ]+ {say("exit  return",$/);} }
+token return { [ ';' | \v ]+ } #{say("exit  return",$/);} }
 
 rule if_expr {
    'if' $<cond>=<EXPR> <.return>? 'then' :
-   { say("enter if: ", $/); }
+   #{ say("enter if: ", $/); }
    [
    || <.return>: $<then>=<statement_list> [ 'else' <elsePart> || 'end' 'if' ]
    || $<then>=<statement> [ 'else' <elsePart> ]?
    ]
-   { say("exit  if: ", $/); }
+   #{ say("exit  if: ", $/); }
 }
 
 rule elsePart {
@@ -110,6 +110,7 @@ token number {
 INIT {
     Safire::Grammar.O(':prec<u>, :assoc<left>',  '%multiplicative');
     Safire::Grammar.O(':prec<t>, :assoc<left>',  '%additive');
+    Safire::Grammar.O(':prec<s>, :assoc<left>',  '%relational');
 }
 
 token circumfix:sym<( )> { '(' <.ws> <EXPR> ')' }
@@ -119,4 +120,7 @@ token infix:sym</>  { <sym> <O('%multiplicative, :op<div_n>')> }
 
 token infix:sym<+>  { <sym> <O('%additive, :op<add_n>')> }
 token infix:sym<->  { <sym> <O('%additive, :op<sub_n>')> }
+
+token infix:sym<==> { <sym> <O('%relational, :op<iseq_n>')> }
+token infix:sym<eq> { <sym> <O('%relational, :op<iseq_s>')> }
 }

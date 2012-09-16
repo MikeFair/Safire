@@ -1,19 +1,23 @@
 on start
 
 if 1 then 
+say "foo"
 end if
 
 if 1 \
 then
+say "foo"
 end if
 
 if \
 1 \
 then
+say "foo"
 end if
 
 if \
 1 then
+say "foo"
 end if
 
 if 1 then
@@ -22,11 +26,13 @@ end if
 
 if 1 
 then
+say "foo"
 end if
 
 if \
 1 
 then
+say "foo"
 end if
 
 if 1 \
