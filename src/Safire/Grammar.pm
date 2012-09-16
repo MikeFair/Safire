@@ -71,7 +71,7 @@ token keyword { 'stop' | 'using' | 'if' | 'then' | 'else' | 'repeat' | 'end' | '
 #rule block_pair:sym<if> { <sym> <if_expr> end $<sym> }
 #rule block_pair:sym<repeat> { <sym> <repeat_expr> end $<sym> }
 
-token stmntEnd { [ ';' | \v ]* }
+token stmntEnd { [ ';' || \v ]* }
 token return { [ ';' | \v ]+ {say("exit  return",$/);} }
 
 rule if_expr {
@@ -86,8 +86,8 @@ rule if_expr {
 
 rule elsePart {
    [
-   || <.return> <statement_list> 'end' 'if' 
-   || <statement>
+   || <.return> $<ifelse>=<statement_list> 'end' 'if' 
+   || $<ifelse>=<statement>
    ]
 }
 

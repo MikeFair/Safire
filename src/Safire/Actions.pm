@@ -11,13 +11,14 @@ say("actionx TOP: ");
 method statement_list($/) {
 say("actione statement_list: ", $/);
     my $qast := QAST::Stmts.new( :node($/) );
-    for $<statement> { $qast.push( $_.ast ); }
+    for $<statement> { if ($_.ast) { $qast.push( $_.ast ); } }
     make $qast;
 say("actionx statement_list: ");
 }
 
 method statement($/) {
 say("actione statement: ", $/ );
+say("STMNT: {",$<statement_control>,"} EXPR: {", $<EXPR>, "} OTHER: {", $/, "}");
     make $<statement_control> ?? $<statement_control>.ast !! $<EXPR>.ast;
     #make $<statement_control>;
 say("actionx statement: ");
@@ -53,11 +54,7 @@ say("actione statement_control say: ", $/);
     make $qast;
 say("actionx statement_control say: ");
 }
-
-method statement_control:sym<print>($/) {
-say("actione statement_control print: ", $/);
-    my $qast := QAST::Op.new( :name<print>, :op<print>, :node($/) );
-    for $<EXPR> { $qast.push( $_.ast ); }
+method statement_control:sym<print>($/) { say("actione statement_control print: ", $/); my $qast := QAST::Op.new( :name<print>, :op<print>, :node($/) ); for $<EXPR> { $qast.push( $_.ast ); }
     make $qast;
 say("actionx statement_control print: ");
 }
@@ -68,16 +65,20 @@ method if_expr($/) {
 say("actione if_expr: ", $/);
    say("COND: ", $<cond>, "; CONDAST: ", $<cond>.ast);
    say("THEN: ", $<then>, "; THENAST: ", $<then>.ast);
-   my $qast := QAST::Op.new( $<cond>.ast, $<then>.ast, :op('if'), :node($/) );
+   my $qast := QAST::Op.new( $<cond>.ast, $<then>.ast, :op<if>, :node($/) );
 
    if ($<elsePart>) {
-      $qast.push( $<elsePart>.ast );
+      say("ELSE: ", $((<elsePart>)<ifelse>), "; ELSEAST: ", $((<elsePart>)<ifelse>).ast);
+      #$qast.push( $<elsePart>.ast );
    }
    make $qast;
 say("actionx if_expr: ");
 }
 
-method elsePart($/) { make ( $<statement> || $<statement_list> ).ast }
+method elsePart($/) {
+   say("ElSEPART: {", $<ifelse> ,"} ELSEPARTAST: {". $<ifelse>.ast, "}");
+   #if ($<statement>) { make $<statement>.ast } else {  $<statement_list>.ast }
+}
 
 method term:sym<number>($/) { make $<number>.ast; }
 method number($/) {
